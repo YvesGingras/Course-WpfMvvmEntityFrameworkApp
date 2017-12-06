@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FriendOrganizer.UI"
         mc:Ignorable="d"
-        Title="FriendOrganizer" Height="350" Width="525">
+        Title="FriendOrganizer" Height="350" Width="525" FontSize="20">
+   
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/> <!--*-->
+        </Grid.ColumnDefinitions>
+        <ListView ItemsSource="{Binding Friends}"
+                  SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
+                  DisplayMemberPath="FirstName"/>
     </Grid>
 </Window>
  
