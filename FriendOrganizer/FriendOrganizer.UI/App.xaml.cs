@@ -5,13 +5,17 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using FriendOrganizer.UI.Data;
+using FriendOrganizer.UI.ViewModel;
 
 namespace FriendOrganizer.UI
 {
-    /// <summary>
-    /// Logique d'interaction pour App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private void App_OnStartup(object sender, StartupEventArgs e) {
+            var mainWindow = new MainWindow(new MainViewModel(new FriendDataService()));
+            mainWindow.Show();
+        }
     }
 }
+ 
