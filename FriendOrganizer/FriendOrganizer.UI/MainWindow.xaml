@@ -6,15 +6,17 @@
         xmlns:local="clr-namespace:FriendOrganizer.UI"
         mc:Ignorable="d"
         Title="FriendOrganizer" Height="350" Width="525" FontSize="20">
-   
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition/> <!--*-->
+            <ColumnDefinition/>
+            <!--*-->
         </Grid.ColumnDefinitions>
         <ListView ItemsSource="{Binding Friends}"
                   SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
                   DisplayMemberPath="FirstName"/>
+
     </Grid>
 </Window>
  
