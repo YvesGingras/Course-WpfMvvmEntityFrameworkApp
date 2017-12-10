@@ -5,7 +5,7 @@ using FriendOrganizer.UI.ViewModel;
 
 namespace FriendOrganizer.UI.Startup
 {
-    /// <summary>Class responsible to create the 'autofac container.</summary>
+    /// <summary>Class responsible for creating the 'autofac container.</summary>
     public class Bootstrapper
     {
         public IContainer Bootstrap() {
@@ -14,6 +14,7 @@ namespace FriendOrganizer.UI.Startup
             builder.RegisterType<FriendOrganizerDbContext>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
             builder.RegisterType<FriendDataService>().As<IFriendDataService>();
 
