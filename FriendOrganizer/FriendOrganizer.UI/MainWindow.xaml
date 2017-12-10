@@ -7,8 +7,6 @@
         xmlns:view="clr-namespace:FriendOrganizer.UI.View"
         mc:Ignorable="d"
         Title="FriendOrganizer" Height="350" Width="525" FontSize="20">
-
-    
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,33 +14,7 @@
             <ColumnDefinition/> <!--*-->
         </Grid.ColumnDefinitions>
         <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-        
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Content="Firstname" Margin="10 10 10 0" />
-            <TextBox Grid.Row="1"
-                     Text="{Binding SelectedFriend.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10" />
-
-            <Label Grid.Row="2" Content="Lastname" Margin="10 0" />
-            <TextBox Grid.Row="3"
-                     Text="{Binding SelectedFriend.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10" />
-
-            <Label Grid.Row="4" Content="Email" Margin="10 0" />
-            <TextBox Grid.Row="5"
-                     Text="{Binding SelectedFriend.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10" />
-        </Grid>
-
+        <view:FriendDetailView Grid.Column="1" DataContext="{Binding FriendDetailViewModel}"/>
     </Grid> 
 </Window>
  
