@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data;
 using FriendOrganizer.UI.Event;
+using Prism.Commands;
 using Prism.Events;
 
 namespace FriendOrganizer.UI.ViewModel
@@ -17,12 +19,11 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator = evanAggregator;
             _eventAggregator.GetEvent<OpenFriendDetailViewEvent>()
                 .Subscribe(OnOpenFriendDetailView);
+
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
-        private async void OnOpenFriendDetailView(int friendId) {
-            await LoadAsync(friendId);
-        }
-
+        /*Leave public*/
         public Friend Friend {
             get => _friend;
             set {
@@ -30,6 +31,23 @@ namespace FriendOrganizer.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        /*Leave public*/
+        public ICommand SaveCommand { get; }
+
+        private bool OnSaveCanExecute() {
+            // todo: Check if friend is valid.
+            return true;
+        }
+
+        private void OnSaveExecute() {
+            throw new System.NotImplementedException();
+        }
+
+        private async void OnOpenFriendDetailView(int friendId) {
+            await LoadAsync(friendId);
+        }
+
 
         public async Task LoadAsync(int friendId) {
             Friend = await _dataService.GetByIdAsync(friendId);
