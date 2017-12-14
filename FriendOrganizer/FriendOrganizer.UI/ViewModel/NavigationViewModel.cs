@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data;
@@ -17,11 +18,11 @@ namespace FriendOrganizer.UI.ViewModel
             _friendLookupService = friendLookupService;
             _eventAggragator = eventAggregator;
             Friends = new ObservableCollection<LookupItem>();
+            _eventAggragator.GetEvent<AfterFriendSavedEvent>().Subscribe(AfterFriendSaved);
         }
 
         public ObservableCollection<LookupItem> Friends { get; set; }
 
-        /*Used by NavigationView.xml*/
         public LookupItem SelectedFriend {
             get => _selectedFriend;
             set {
@@ -31,6 +32,11 @@ namespace FriendOrganizer.UI.ViewModel
                     _eventAggragator.GetEvent<OpenFriendDetailViewEvent>()
                         .Publish(_selectedFriend.Id);
             }
+        }
+
+        private void AfterFriendSaved(AfterFriendSavedEventArgs obj) {
+            var lookupItem = Friends.Single(l => l.Id == obj.Id);
+            lookupItem.DisplayMember = obj.DisplayMember;
         }
 
         public async Task LoadAsync() {
