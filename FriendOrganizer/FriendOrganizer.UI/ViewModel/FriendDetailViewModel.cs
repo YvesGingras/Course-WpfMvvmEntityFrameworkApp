@@ -40,9 +40,9 @@ namespace FriendOrganizer.UI.ViewModel
             return true;
         }
 
-        private void OnSaveExecute() {
-            throw new System.NotImplementedException();
-        }
+        private async void OnSaveExecute() {
+           await _dataService.SaveAsync(Friend);
+        } 
 
         private async void OnOpenFriendDetailView(int friendId) {
             await LoadAsync(friendId);
