@@ -53,7 +53,6 @@ namespace FriendOrganizer.UI.ViewModel
             await LoadAsync(friendId);
         }
 
-
         public async Task LoadAsync(int friendId) {
             Friend = await _dataService.GetByIdAsync(friendId);
         }

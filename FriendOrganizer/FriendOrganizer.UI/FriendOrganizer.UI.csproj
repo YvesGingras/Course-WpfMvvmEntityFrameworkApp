@@ -81,6 +81,7 @@
     <Compile Include="ViewModel\IFriendDetailViewModel.cs" />
     <Compile Include="ViewModel\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\NavigationItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FriendDetailView.xaml.cs">
