@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using FriendOrganizer.Model;
 using FriendOrganizer.UI.ViewModel;
 
@@ -25,6 +26,17 @@ namespace FriendOrganizer.UI.Wrapper
             set {
                 Model.FirstName = value;
                 OnPropertyChanged();
+                ValdiateProperty(nameof(FirstName));
+            }
+        }
+
+        private void ValdiateProperty(string propertyName) {
+            ClearErrors(propertyName);
+            switch (propertyName) {
+                case nameof(FirstName):
+                    if (string.Equals(FirstName, "Robot", StringComparison.CurrentCultureIgnoreCase))
+                        AddError(propertyName, "Robots are not valid friends.");
+                    break;
             }
         }
 
