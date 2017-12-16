@@ -4,27 +4,31 @@ using FriendOrganizer.Model;
 
 namespace FriendOrganizer.UI.Wrapper
 {
-    public class FriendWrapper:NotifyDataErrorBase
+    public class FriendWrapper : ModelWrapper<Friend>
     {
-
-        public FriendWrapper(Friend model) {
-            Model = model;
-        }
-
-        public Friend Model { get; }
+        public FriendWrapper(Friend model) : base(model) { }
 
         public int Id => Model.Id;
 
         public string FirstName {
-            get => Model.FirstName;
+            get => GetValue<string>();
             set {
-                Model.FirstName = value;
-                OnPropertyChanged();
-                ValdiateProperty(nameof(FirstName));
+                SetValue(value);
+                ValidiateProperty(nameof(FirstName));
             }
         }
 
-        private void ValdiateProperty(string propertyName) {
+        public string LastName {
+            get => GetValue<string>(nameof(LastName));
+            set => SetValue(value);
+        }
+
+        public string Email {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
+
+        private void ValidiateProperty(string propertyName) {
             ClearErrors(propertyName);
             switch (propertyName) {
                 case nameof(FirstName):
@@ -32,22 +36,6 @@ namespace FriendOrganizer.UI.Wrapper
                         AddError(propertyName, "Robots are not valid friends.");
                     break;
             }
-        }
-
-        public string LastName {
-            get => Model.LastName;
-            set {
-                Model.LastName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Email {
-            get => Model.Email;
-            set {
-                Model.Email = value;
-                OnPropertyChanged();
-            } 
         }
     }
 }
