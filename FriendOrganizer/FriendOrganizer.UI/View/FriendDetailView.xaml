@@ -29,7 +29,7 @@
 
         <Label Grid.Row="4" Content="Email" Margin="10 0" />
         <TextBox Grid.Row="5"
-                 Text="{Binding Friend.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Friend.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                  Margin="10 0 10 10" />
         
         <StackPanel Grid.Row="7">
