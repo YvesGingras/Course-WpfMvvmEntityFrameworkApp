@@ -6,7 +6,7 @@ using System.Linq;
 using FriendOrganizer.UI.ViewModel;
 
 namespace FriendOrganizer.UI.Wrapper {
-    public class NotifyDataErrorBase:ViewModelBase,INotifyDataErrorInfo
+    public class NotifyDataErrorInfoBase:ViewModelBase,INotifyDataErrorInfo
     {
         private Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
 

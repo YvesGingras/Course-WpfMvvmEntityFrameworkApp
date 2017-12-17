@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 using FriendOrganizer.Model;
 
 namespace FriendOrganizer.UI.Wrapper
@@ -12,10 +12,7 @@ namespace FriendOrganizer.UI.Wrapper
 
         public string FirstName {
             get => GetValue<string>();
-            set {
-                SetValue(value);
-                ValidiateProperty(nameof(FirstName));
-            }
+            set => SetValue(value);
         }
 
         public string LastName {
@@ -28,12 +25,11 @@ namespace FriendOrganizer.UI.Wrapper
             set => SetValue(value);
         }
 
-        private void ValidiateProperty(string propertyName) {
-            ClearErrors(propertyName);
+        protected override IEnumerable<string> ValidateProperty(string propertyName) {
             switch (propertyName) {
                 case nameof(FirstName):
                     if (string.Equals(FirstName, "Robot", StringComparison.CurrentCultureIgnoreCase))
-                        AddError(propertyName, "Robots are not valid friends.");
+                        yield return "Robots are not valid friends.";
                     break;
             }
         }

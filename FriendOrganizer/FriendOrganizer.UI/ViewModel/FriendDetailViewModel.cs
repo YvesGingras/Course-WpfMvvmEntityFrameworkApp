@@ -47,7 +47,7 @@ namespace FriendOrganizer.UI.ViewModel
                     DisplayMember = $"{Friend.FirstName} {Friend.LastName}"
                 });
         } 
-
+         
         private async void OnOpenFriendDetailView(int friendId) {
             await LoadAsync(friendId);
         }
