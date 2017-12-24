@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using FriendOrganizer.Model;
-using FriendOrganizer.UI.Data;
+using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
@@ -11,12 +10,12 @@ namespace FriendOrganizer.UI.ViewModel
 {
     public class FriendDetailViewModel : ViewModelBase, IFriendDetailViewModel
     {
-        private readonly IFriendDataService _dataService;
+        private readonly IFriendRepository _friendRepository;
         private FriendWrapper _friend;
         private IEventAggregator _eventAggregator;
 
-        public FriendDetailViewModel(IFriendDataService dataService, IEventAggregator evanAggregator) {
-            _dataService = dataService;
+        public FriendDetailViewModel(IFriendRepository friendRepository, IEventAggregator evanAggregator) {
+            _friendRepository = friendRepository;
             _eventAggregator = evanAggregator;
             _eventAggregator.GetEvent<OpenFriendDetailViewEvent>()
                 .Subscribe(OnOpenFriendDetailView);
@@ -40,7 +39,7 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         private async void OnSaveExecute() {
-            await _dataService.SaveAsync(Friend.Model);
+            await _friendRepository.SaveAsync();
             _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
                 new AfterFriendSavedEventArgs {
                     Id = Friend.Id,
@@ -51,9 +50,9 @@ namespace FriendOrganizer.UI.ViewModel
         private async void OnOpenFriendDetailView(int friendId) {
             await LoadAsync(friendId);
         }
-
+        
         public async Task LoadAsync(int friendId) {
-            var friend = await _dataService.GetByIdAsync(friendId);
+            var friend = await _friendRepository.GetByIdAsync(friendId);
             Friend = new FriendWrapper(friend);
             Friend.PropertyChanged += (s, e) => {
                 if(e.PropertyName==nameof(Friend.HasErrors))
