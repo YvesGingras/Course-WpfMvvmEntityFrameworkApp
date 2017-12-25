@@ -13,11 +13,11 @@ namespace FriendOrganizer.UI.ViewModel
         private readonly IFriendRepository _friendRepository;
         private FriendWrapper _friend;
         private IEventAggregator _eventAggregator;
+        private bool _hasChanges;
 
         public FriendDetailViewModel(IFriendRepository friendRepository, IEventAggregator evanAggregator) {
             _friendRepository = friendRepository;
             _eventAggregator = evanAggregator;
-            
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
@@ -32,31 +32,44 @@ namespace FriendOrganizer.UI.ViewModel
 
         public ICommand SaveCommand { get; }
 
+        public bool HasChanges {
+            get => _hasChanges;
+            set {
+                if (_hasChanges == value) return;
+                _hasChanges = value;
+                OnPropertyChanged();
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        public async Task LoadAsync(int friendId)
+        {
+            var friend = await _friendRepository.GetByIdAsync(friendId);
+            Friend = new FriendWrapper(friend);
+
+            Friend.PropertyChanged += (s, e) => {
+                if (!HasChanges)
+                    HasChanges = _friendRepository.HasChanges();
+                if (e.PropertyName == nameof(Friend.HasErrors))
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            };
+
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
         private bool OnSaveCanExecute() { 
-            // todo: Check in addition if friend has changes.
-            return Friend!=null && !Friend.HasErrors;
+            return Friend!=null && !Friend.HasErrors && HasChanges;
         }
 
         private async void OnSaveExecute() {
             await _friendRepository.SaveAsync();
+            HasChanges = _friendRepository.HasChanges();
+
             _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
                 new AfterFriendSavedEventArgs {
                     Id = Friend.Id,
                     DisplayMember = $"{Friend.FirstName} {Friend.LastName}"
                 });
         } 
-         
-        
-        
-        public async Task LoadAsync(int friendId) {
-            var friend = await _friendRepository.GetByIdAsync(friendId);
-            Friend = new FriendWrapper(friend);
-            Friend.PropertyChanged += (s, e) => {
-                if(e.PropertyName==nameof(Friend.HasErrors))
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            };
-
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-        }
     }
 }
