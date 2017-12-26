@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
+using Prism.Commands;
 using Prism.Events;
 
 namespace FriendOrganizer.UI.ViewModel
@@ -24,9 +26,12 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator.GetEvent<OpenFriendDetailViewEvent>()
                 .Subscribe(OnOpenFriendDetailView);
 
-            NavigationViewModel = navigationViewModel;
+            CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendExecute);
 
+            NavigationViewModel = navigationViewModel;
         }
+
+        public ICommand CreateNewFriendCommand { get; }
 
         public INavigationViewModel NavigationViewModel { get; }
 
@@ -42,7 +47,7 @@ namespace FriendOrganizer.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        private async void OnOpenFriendDetailView(int friendId) {
+        private async void OnOpenFriendDetailView(int? friendId) {
             if (FriendDetailViewModel != null && FriendDetailViewModel.HasChanges) {
                 var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
 
@@ -52,6 +57,10 @@ namespace FriendOrganizer.UI.ViewModel
             
             FriendDetailViewModel = _friendDetailViewModelCreator();
             await FriendDetailViewModel.LoadAsync(friendId);
+        }
+
+        private void OnCreateNewFriendExecute() {
+            OnOpenFriendDetailView(null);       
         }
     }
 }
