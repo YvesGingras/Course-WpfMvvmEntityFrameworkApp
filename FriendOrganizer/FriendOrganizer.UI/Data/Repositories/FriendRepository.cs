@@ -21,6 +21,10 @@ namespace FriendOrganizer.UI.Data.Repositories
             _context.Friends.Add(friend);
         }
 
+        public void Remove(Friend model) {
+            _context.Friends.Remove(model);
+        }
+
         public async Task SaveAsync() {
             await _context.SaveChangesAsync();
         }

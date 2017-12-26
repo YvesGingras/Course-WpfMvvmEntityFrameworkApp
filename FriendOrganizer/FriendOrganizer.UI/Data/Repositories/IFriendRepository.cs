@@ -7,5 +7,6 @@ namespace FriendOrganizer.UI.Data.Repositories {
         Task SaveAsync();
         bool HasChanges();
         void Add(Friend friend);
+        void Remove(Friend model);
     }
 }           

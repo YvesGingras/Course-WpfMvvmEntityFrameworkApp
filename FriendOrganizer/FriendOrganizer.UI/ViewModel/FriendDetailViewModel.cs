@@ -21,8 +21,9 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator = evanAggregator;
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            DeleteCommand = new DelegateCommand(OnDeleteExecute);
         }
-         
+
         public FriendWrapper Friend {
             get => _friend;
             set {
@@ -32,6 +33,7 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         public ICommand SaveCommand { get; }
+        public ICommand DeleteCommand { get;}
 
         public bool HasChanges {
             get => _hasChanges;
@@ -82,6 +84,11 @@ namespace FriendOrganizer.UI.ViewModel
             var friend = new Friend();
             _friendRepository.Add(friend);
             return friend;
+        }
+
+        private async void OnDeleteExecute() {
+            _friendRepository.Remove(Friend.Model);
+            await _friendRepository.SaveAsync();
         }
     }
 }
