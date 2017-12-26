@@ -55,4 +55,4 @@ namespace FriendOrganizer.UI.ViewModel
         }
     }
 }
- 
+  
