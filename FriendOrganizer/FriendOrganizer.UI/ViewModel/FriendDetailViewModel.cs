@@ -58,9 +58,10 @@ namespace FriendOrganizer.UI.ViewModel
             };
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            if (Friend.Id == 0)
+                //Little trick to trigger the validation. :-(
+                Friend.FirstName = "";
         }
-
-        
 
         private bool OnSaveCanExecute() { 
             return Friend!=null && !Friend.HasErrors && HasChanges;
