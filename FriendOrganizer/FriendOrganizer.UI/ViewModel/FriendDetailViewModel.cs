@@ -13,7 +13,7 @@ namespace FriendOrganizer.UI.ViewModel
     {
         private readonly IFriendRepository _friendRepository;
         private FriendWrapper _friend;
-        private IEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
         public FriendDetailViewModel(IFriendRepository friendRepository, IEventAggregator evanAggregator) {
@@ -89,6 +89,7 @@ namespace FriendOrganizer.UI.ViewModel
         private async void OnDeleteExecute() {
             _friendRepository.Remove(Friend.Model);
             await _friendRepository.SaveAsync();
+            _eventAggregator.GetEvent<AfterFriendDeletedEvent>().Publish(Friend.Id);
         }
     }
 }
