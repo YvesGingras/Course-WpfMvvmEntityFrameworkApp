@@ -10,6 +10,7 @@ namespace FriendOrganizer.DataAccess
         public FriendOrganizerDbContext() : base("FriendOrganizerDb") { }
 
         public DbSet<Friend> Friends { get; set; }
+        public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -17,3 +18,4 @@ namespace FriendOrganizer.DataAccess
         }
     }
 }
+ 
