@@ -9,8 +9,7 @@ namespace FriendOrganizer.DataAccess.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<FriendOrganizer.DataAccess.FriendOrganizerDbContext>
     {
-        public Configuration()
-        {
+        public Configuration() {
             AutomaticMigrationsEnabled = false;
         }
 
@@ -21,15 +20,22 @@ namespace FriendOrganizer.DataAccess.Migrations
                 new Friend {FirstName = "Urs", LastName = "Meir"},
                 new Friend {FirstName = "Erkan", LastName = "Egin"},
                 new Friend {FirstName = "Sara", LastName = "Huber"}
-                );
+            );
 
             context.ProgrammingLanguages.AddOrUpdate(
                 pl => pl.Name,
-                new ProgrammingLanguage{Name = "C#"},
+                new ProgrammingLanguage {Name = "C#"},
                 new ProgrammingLanguage {Name = "TypeScript"},
                 new ProgrammingLanguage {Name = "F#"},
                 new ProgrammingLanguage {Name = "Swift"},
                 new ProgrammingLanguage {Name = "Java"});
+
+            context.SaveChanges();
+
+            context.FriendPhoneNumbers.AddOrUpdate(pn => pn.Number, new FriendPhoneNumber {
+                Number = "+49 123456789",
+                FriendId = context.Friends.First().Id
+            });
         }
     }
 }
