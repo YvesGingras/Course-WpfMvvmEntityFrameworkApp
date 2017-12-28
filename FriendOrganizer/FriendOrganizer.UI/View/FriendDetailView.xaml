@@ -41,6 +41,22 @@
                   SelectedValue="{Binding Friend.FavoriteLanguageId,Mode=TwoWay}"
                   Margin="10 0 10 10"/>
 
+         <DockPanel Grid.Row="8" Margin="10">
+             <StackPanel DockPanel.Dock="Right">
+                <Button Content="Add" Width="125" Margin="10"
+                        Command="{Binding AddPhoneNumberCommand}"/>
+                <Button Content="Remove" Width="125" Margin="10"
+                        Command="{Binding RemovePhoneNumberCommand}"/>
+             </StackPanel>
+            <DataGrid ItemsSource="{Binding PhoneNumbers}"
+                       SelectedItem="{Binding SelectedPhoneNumber,Mode=TwoWay}"
+                       AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Phone Numbers" Width="*"
+                                        Binding="{Binding Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+         </DockPanel>
 
         <StackPanel Grid.Row="9" Orientation="Horizontal">
             <Button Content="Save" Width="125" Margin="10"
