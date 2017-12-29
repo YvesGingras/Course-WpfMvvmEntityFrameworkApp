@@ -24,5 +24,24 @@
                  </Trigger>
              </Style.Triggers>
          </Style>
+
+        <Style x:Key="DataGridColumnStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="IndianRed"/>
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                         Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DataGridEditingColumnStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="IndianRed"/>
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                         Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources> 
 </Application> 

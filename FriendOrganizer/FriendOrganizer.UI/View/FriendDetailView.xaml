@@ -50,9 +50,11 @@
              </StackPanel>
             <DataGrid ItemsSource="{Binding PhoneNumbers}"
                        SelectedItem="{Binding SelectedPhoneNumber,Mode=TwoWay}"
-                       AutoGenerateColumns="False">
+                       AutoGenerateColumns="False" RowHeaderWidth="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Phone Numbers" Width="*"
+                                        ElementStyle="{StaticResource DataGridColumnStyle}"
+                                        EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"
                                         Binding="{Binding Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -66,3 +68,4 @@
         </StackPanel>
     </Grid>
 </UserControl>
+ 
