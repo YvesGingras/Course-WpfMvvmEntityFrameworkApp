@@ -148,7 +148,7 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         private async void OnSaveExecute() {
-            await _friendRepository.SaveAsync();
+             await _friendRepository.SaveAsync();
             HasChanges = _friendRepository.HasChanges();
 
             _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
@@ -177,7 +177,12 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         private void OnRemovePhoneNumberExecute() {
-            // todo: Implement this
+            SelectedPhoneNumber.PropertyChanged -= FriendPhoneNumberWrapper_PropertyChanged;
+            _friendRepository.RemovePhoneNumber(SelectedPhoneNumber.Model);
+            PhoneNumbers.Remove(SelectedPhoneNumber);
+            SelectedPhoneNumber = null;
+            HasChanges = _friendRepository.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         private bool OnRemovePhoneNumberCanExecute() {
