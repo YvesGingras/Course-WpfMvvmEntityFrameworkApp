@@ -151,10 +151,11 @@ namespace FriendOrganizer.UI.ViewModel
              await _friendRepository.SaveAsync();
             HasChanges = _friendRepository.HasChanges();
 
-            _eventAggregator.GetEvent<AfterFriendSavedEvent>().Publish(
-                new AfterFriendSavedEventArgs {
+            _eventAggregator.GetEvent<AfterDetailSavedEvent>().Publish(
+                new AfterDetailSavedEventArgs {
                     Id = Friend.Id,
-                    DisplayMember = $"{Friend.FirstName} {Friend.LastName}"
+                    DisplayMember = $"{Friend.FirstName} {Friend.LastName}",
+                    ViewModelName = nameof(FriendDetailViewModel)
                 });
         }
 

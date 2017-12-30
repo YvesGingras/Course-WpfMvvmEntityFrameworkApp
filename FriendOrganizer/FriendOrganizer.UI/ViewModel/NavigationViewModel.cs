@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Markup.Localizer;
 using FriendOrganizer.UI.Data.Lookups;
 using FriendOrganizer.UI.Event;
 using Prism.Events;
@@ -18,7 +16,7 @@ namespace FriendOrganizer.UI.ViewModel
             _friendLookupService = friendLookupService;
             _eventAggragator = eventAggregator;
             Friends = new ObservableCollection<NavigationItemViewModel>();
-            _eventAggragator.GetEvent<AfterFriendSavedEvent>().Subscribe(AfterFriendSaved);
+            _eventAggragator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
             _eventAggragator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
         }
         
@@ -31,13 +29,18 @@ namespace FriendOrganizer.UI.ViewModel
                 Friends.Add(new NavigationItemViewModel(lookupItem.Id, lookupItem.DisplayMember, _eventAggragator, nameof(FriendDetailViewModel)));
         }
 
-        private void AfterFriendSaved(AfterFriendSavedEventArgs obj) {
-            var lookupItem = Friends.SingleOrDefault(l => l.Id == obj.Id);
+        private void AfterDetailSaved(AfterDetailSavedEventArgs obj) {
+            switch (obj.ViewModelName) {
+                case nameof(FriendDetailViewModel):
+                    var lookupItem = Friends.SingleOrDefault(l => l.Id == obj.Id);
 
-            if (lookupItem == null)
-                Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggragator, nameof(FriendDetailViewModel)));
-            else
-                lookupItem.DisplayMember = obj.DisplayMember;
+                    if (lookupItem == null)
+                        Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggragator,
+                            nameof(FriendDetailViewModel)));
+                    else
+                        lookupItem.DisplayMember = obj.DisplayMember; { }
+                    break;
+            }
         }
 
         private void AfterDetailDeleted(AfterDetailDeletedEventArgs args) {
