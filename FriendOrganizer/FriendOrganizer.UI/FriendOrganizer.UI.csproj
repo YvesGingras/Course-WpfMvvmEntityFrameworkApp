@@ -83,6 +83,7 @@
     <Compile Include="Event\OpenDetailViewEventArgs.cs" />
     <Compile Include="Event\OpenDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="ViewModel\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\IDetailViewModel.cs" />
     <Compile Include="ViewModel\IFriendDetailViewModel.cs" />
