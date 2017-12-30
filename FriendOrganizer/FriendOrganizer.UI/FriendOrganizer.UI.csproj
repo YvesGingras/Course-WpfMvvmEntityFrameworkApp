@@ -77,6 +77,7 @@
     <Compile Include="Event\AfterFriendDeletedEvent.cs" />
     <Compile Include="Event\AfterFriendSavedEvent.cs" />
     <Compile Include="Event\AfterFriendSavedEventArgs.cs" />
+    <Compile Include="Event\OpenDetailViewEventArgs.cs" />
     <Compile Include="Event\OpenFriendDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />

@@ -19,23 +19,21 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggragator.GetEvent<AfterFriendSavedEvent>().Subscribe(AfterFriendSaved);
             _eventAggragator.GetEvent<AfterFriendDeletedEvent>().Subscribe(AfterFriendDeleted);
         }
-
         
         public ObservableCollection<NavigationItemViewModel> Friends { get; set; }
-
 
         public async Task LoadAsync() {
             var lookupItems = await _friendLookupService.GetFriendLookupAsync();
             Friends.Clear();
             foreach (var lookupItem in lookupItems)
-                Friends.Add(new NavigationItemViewModel(lookupItem.Id, lookupItem.DisplayMember, _eventAggragator));
+                Friends.Add(new NavigationItemViewModel(lookupItem.Id, lookupItem.DisplayMember, _eventAggragator, nameof(FriendDetailViewModel)));
         }
 
         private void AfterFriendSaved(AfterFriendSavedEventArgs obj) {
             var lookupItem = Friends.SingleOrDefault(l => l.Id == obj.Id);
 
             if (lookupItem == null)
-                Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggragator));
+                Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember, _eventAggragator, nameof(FriendDetailViewModel)));
             else
                 lookupItem.DisplayMember = obj.DisplayMember;
         }
