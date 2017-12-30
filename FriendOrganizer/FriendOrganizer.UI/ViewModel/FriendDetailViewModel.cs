@@ -76,9 +76,9 @@ namespace FriendOrganizer.UI.ViewModel
         public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
         public ObservableCollection<FriendPhoneNumberWrapper> PhoneNumbers { get;  }
 
-        public async Task LoadAsync(int? friendId) {
-            var friend = friendId.HasValue
-                ? await _friendRepository.GetByIdAsync(friendId.Value)
+        public async Task LoadAsync(int? id) {
+            var friend = id.HasValue
+                ? await _friendRepository.GetByIdAsync(id.Value)
                 : CreateNewFriend();
 
             InitializeFriend(friend);
