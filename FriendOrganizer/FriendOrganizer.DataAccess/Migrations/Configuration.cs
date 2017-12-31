@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FriendOrganizer.Model;
 
 namespace FriendOrganizer.DataAccess.Migrations
@@ -36,6 +37,17 @@ namespace FriendOrganizer.DataAccess.Migrations
                 Number = "+49 123456789",
                 FriendId = context.Friends.First().Id
             });
+
+            context.Meetings.AddOrUpdate(m => m.Title,
+                new Meeting {
+                    Title = "Watching Soccer",
+                    DateFrom = new DateTime(2018,5,26),
+                    DateTo = new DateTime(2018, 5, 26),
+                    Friends = new List<Friend> {
+                        context.Friends.Single(f => f.FirstName == "Thomas" && f.LastName == "Huber"),
+                        context.Friends.Single(f => f.FirstName == "Urs" && f.LastName == "Meir")
+                    }
+                });
         }
     }
 }

@@ -44,6 +44,7 @@
     <Compile Include="Friend.cs" />
     <Compile Include="FriendPhoneNumber.cs" />
     <Compile Include="LookupItem.cs" />
+    <Compile Include="Meeting.cs" />
     <Compile Include="NullLookupItem.cs" />
     <Compile Include="ProgrammingLanguage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
