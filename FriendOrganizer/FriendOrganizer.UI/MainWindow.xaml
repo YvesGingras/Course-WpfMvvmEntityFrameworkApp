@@ -14,7 +14,10 @@
      <DataTemplate DataType="{x:Type viewModel:FriendDetailViewModel}">
          <view:FriendDetailView/>
      </DataTemplate>
- </Window.Resources>
+     <DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
+         <view:MeetingDetailView/>
+     </DataTemplate>
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
