@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
 using Prism.Commands;
@@ -12,15 +13,18 @@ namespace FriendOrganizer.UI.ViewModel
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<IFriendDetailViewModel> _friendDetailViewModelCreator;
+        private Func<IMeetingDetailViewModel> _meetingDetailViewModelCreator;
         private IDetailViewModel _detailViewModel;
         private readonly IMessageDialogService _messageDialogService;
 
         public MainViewModel(INavigationViewModel navigationViewModel,
             Func<IFriendDetailViewModel> friendDetailViewModelCreator,
+            Func<IMeetingDetailViewModel> meetingDetailViewModelCreator,
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService) {
             _eventAggregator = eventAggregator;
 
             _friendDetailViewModelCreator = friendDetailViewModelCreator;
+            _meetingDetailViewModelCreator = meetingDetailViewModelCreator;
             _messageDialogService = messageDialogService;
 
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
@@ -60,6 +64,11 @@ namespace FriendOrganizer.UI.ViewModel
                 case nameof(FriendDetailViewModel):
                     DetailViewModel = _friendDetailViewModelCreator();
                     break;
+                case nameof(MeetingDetailViewModel):
+                    DetailViewModel = _meetingDetailViewModelCreator();
+                    break;
+                default:
+                    throw new Exception("$ViewModel {args.ViewModelName} not mapped");
             }
 
             await DetailViewModel.LoadAsync(args.Id);
