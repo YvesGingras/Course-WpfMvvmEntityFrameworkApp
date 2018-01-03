@@ -61,6 +61,10 @@ namespace FriendOrganizer.UI.ViewModel
                     ((DelegateCommand) SaveCommand).RaiseCanExecuteChanged();
             };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+
+            //Trick to validate the validation.
+            if (Meeting.Id == 0)
+                Meeting.Title = "";
         }
 
         protected override void OnDeleteExecute() {

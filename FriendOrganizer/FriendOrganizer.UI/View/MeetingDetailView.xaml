@@ -20,13 +20,16 @@
         </Grid.RowDefinitions>
         
         <Label Content="Title" Margin="10 10 10 0"/>
-        <TextBox Grid.Row="1" Text="{Binding Meeting.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Text="{Binding Meeting.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="10 0 10 10"/>
 
         <Label Grid.Row="2" Content="Start" Margin="10 0"/>
-        <toolkit:DateTimePicker Grid.Row="3" Value="{Binding Meeting.DateFrom, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"/>
+        <toolkit:DateTimePicker Grid.Row="3" Value="{Binding Meeting.DateFrom, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10 0 10 10"/>
         
         <Label Grid.Row="4" Content="End" Margin="10 0"/>
-        <toolkit:DateTimePicker Grid.Row="5" Value="{Binding Meeting.DateTo, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"/>
+        <toolkit:DateTimePicker Grid.Row="5" Value="{Binding Meeting.DateTo, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10 0 10 10"/>
         
         <StackPanel Grid.Row="7" Orientation="Horizontal">
             <Button Content="Save" Width="75" Margin="10 10 5 10" Command="{Binding SaveCommand}"/>
