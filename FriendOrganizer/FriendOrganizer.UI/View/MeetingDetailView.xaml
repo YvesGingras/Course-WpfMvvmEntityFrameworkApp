@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FriendOrganizer.UI.View"
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:model="clr-namespace:FriendOrganizer.Model;assembly=FriendOrganizer.Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -30,10 +31,45 @@
         <Label Grid.Row="4" Content="End" Margin="10 0"/>
         <toolkit:DateTimePicker Grid.Row="5" Value="{Binding Meeting.DateTo, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                                 Margin="10 0 10 10"/>
+ 
+        <Grid Grid.Row="6">
+            <Grid.Resources>
+                <DataTemplate DataType="{x:Type model:Friend }">
+                    <TextBlock>
+                        <Run Text="{Binding FirstName}"/>
+                        <Run Text="{Binding LastName}"/>
+                    </TextBlock>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Added Friends"/>
+            <ListView Grid.Row="1"
+                      ItemsSource="{Binding AddedFriends}"/>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Button Content="&lt;&lt;" Margin="10" Command="{Binding AddFriendCommand}"/>
+                <Button Content="&gt;&gt;" Margin="10 0 10 10" Command="{Binding RemoveFriendCommand}"/>
+            </StackPanel>
+
+            <Label Content="Available Friends" Grid.Column="2"/>
+            <ListView Grid.Row="1" Grid.Column="2" 
+                      ItemsSource="{Binding AvailableFriends}"
+                      SelectedItem="{Binding SelectedAvailableFriend}"/>
+        </Grid>
         
         <StackPanel Grid.Row="7" Orientation="Horizontal">
             <Button Content="Save" Width="75" Margin="10 10 5 10" Command="{Binding SaveCommand}"/>
             <Button Content="Delete" Width="75" Margin="5 10 10 10" Command="{Binding DeleteCommand}"/>
         </StackPanel>
+
+        
     </Grid>
 </UserControl>
+ 
