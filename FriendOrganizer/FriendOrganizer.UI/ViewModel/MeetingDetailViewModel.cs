@@ -32,11 +32,8 @@ namespace FriendOrganizer.UI.ViewModel
             AvailableFriends = new ObservableCollection<Friend>();
             AddFriendCommand = new DelegateCommand(OnAddFriendExecute,OnAddFriendCanExecute);
             RemoveFriendCommand = new DelegateCommand(OnRemoveFriendExecute,OnRemoveFriendCanExecute);
-            
-            
         }
 
-        
         public MeetingWrapper Meeting {
             get => _meetingWrapper;
             set {
@@ -57,7 +54,7 @@ namespace FriendOrganizer.UI.ViewModel
             set {
                 _selectedAddedFriend = value;
                 OnPropertyChanged();
-                ((DelegateCommand)AddFriendCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)RemoveFriendCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -133,7 +130,12 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         private void OnRemoveFriendExecute() {
-            // todo: Implement remove logic.
+            var friendToRemove = SelectedAddedFriend;
+            Meeting.Model.Friends.Remove(friendToRemove);
+            AddedFriends.Remove(friendToRemove);
+            AvailableFriends.Add(friendToRemove);
+            HasChanges = _meetingRepository.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         private bool OnAddFriendCanExecute() {
@@ -141,7 +143,12 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         private void OnAddFriendExecute() {
-            // todo: Implement add logic.
+            var friendtoAdd = SelectedAvailableFriend;
+            Meeting.Model.Friends.Add(friendtoAdd);
+            AddedFriends.Add(friendtoAdd);
+            AvailableFriends.Remove(friendtoAdd);
+            HasChanges = _meetingRepository.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         private void SetupPicklist() {

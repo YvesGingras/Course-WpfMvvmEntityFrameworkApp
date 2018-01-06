@@ -50,15 +50,18 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            
             <Label Content="Added Friends"/>
-            <ListView Grid.Row="1"
-                      ItemsSource="{Binding AddedFriends}"/>
+            <ListView Grid.Row="1" Grid.Column="0"
+                      ItemsSource="{Binding AddedFriends}"
+                      SelectedItem="{Binding SelectedAddedFriend}"/>
+                        
             <StackPanel Grid.Row="1" Grid.Column="1">
                 <Button Content="&lt;&lt;" Margin="10" Command="{Binding AddFriendCommand}"/>
                 <Button Content="&gt;&gt;" Margin="10 0 10 10" Command="{Binding RemoveFriendCommand}"/>
             </StackPanel>
 
-            <Label Content="Available Friends" Grid.Column="2"/>
+            <Label Content="Available Friends" Grid.Row="0" Grid.Column="2"/>
             <ListView Grid.Row="1" Grid.Column="2" 
                       ItemsSource="{Binding AvailableFriends}"
                       SelectedItem="{Binding SelectedAvailableFriend}"/>
