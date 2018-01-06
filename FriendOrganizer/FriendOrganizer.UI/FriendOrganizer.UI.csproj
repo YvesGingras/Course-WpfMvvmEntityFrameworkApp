@@ -125,6 +125,7 @@
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Services\IMessageDialogService.cs" />
+    <Compile Include="View\Services\MessageDialogResult.cs" />
     <Compile Include="View\Services\MessageDialogService.cs" />
     <Compile Include="Wrapper\FriendPhoneNumberWrapper.cs" />
     <Compile Include="Wrapper\FriendWrapper.cs" />
