@@ -21,10 +21,10 @@ namespace FriendOrganizer.UI.ViewModel
         private readonly IFriendRepository _friendRepository;
         private FriendWrapper _friend;
         private FriendPhoneNumberWrapper _selectedPhoneNumber;
-        //private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
         private readonly IMessageDialogService _messageDialogService;
         private readonly IProgrammingLanguageLookUpDataService _programmingLanguageLookUpDataService;
+        private int _id;
 
         public FriendDetailViewModel(IFriendRepository friendRepository, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService, IProgrammingLanguageLookUpDataService programmingLanguageLookUpDataService)
@@ -68,8 +68,8 @@ namespace FriendOrganizer.UI.ViewModel
                 ? await _friendRepository.GetByIdAsync(id.Value)
                 : CreateNewFriend();
 
+            Id = Friend.Id;
             InitializeFriend(friend);
-
             InitializeFriendPhoneNumbers(friend.PhoneNumbers);
 
             await LoadProgrammingLanguagesLookupAsync();
@@ -136,6 +136,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected override async void OnSaveExecute() {
              await _friendRepository.SaveAsync();
+            Id = Friend.Id;
             HasChanges = _friendRepository.HasChanges();
             RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
         }

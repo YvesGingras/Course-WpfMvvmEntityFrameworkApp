@@ -69,10 +69,9 @@ namespace FriendOrganizer.UI.ViewModel
                 ? await _meetingRepository.GetByIdAsync(meetingId.Value)
                 : CreateNewMeeting();
 
+            Id = Meeting.Id;
             InitializeMeeting(meeting);
-
             _allFriends = await _meetingRepository.GetAllFriendsAsync();
-
             SetupPicklist();
         }
 
@@ -91,6 +90,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected override void OnSaveExecute() {
             _meetingRepository.SaveAsync();
+            Id = Meeting.Id;
             HasChanges = _meetingRepository.HasChanges();
             RaiseDetailSavedEvent(Meeting.Id,Meeting.Title);
         }
