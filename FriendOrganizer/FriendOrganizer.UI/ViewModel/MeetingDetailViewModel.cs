@@ -69,7 +69,7 @@ namespace FriendOrganizer.UI.ViewModel
                 ? await _meetingRepository.GetByIdAsync(meetingId.Value)
                 : CreateNewMeeting();
 
-            Id = Meeting.Id;
+            Id = meeting.Id;
             InitializeMeeting(meeting);
             _allFriends = await _meetingRepository.GetAllFriendsAsync();
             SetupPicklist();
@@ -117,12 +117,21 @@ namespace FriendOrganizer.UI.ViewModel
 
                 if (e.PropertyName == nameof(Meeting.HasErrors))
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+
+                if (e.PropertyName == nameof(Meeting.Title))
+                    SetTitle();
             };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
 
             //Trick to validate the validation.
             if (Meeting.Id == 0)
                 Meeting.Title = "";
+
+            SetTitle();
+        }
+
+        private void SetTitle() {
+            Title = $"{Meeting.Title}";
         }
 
         private bool OnRemoveFriendCanExecute() {

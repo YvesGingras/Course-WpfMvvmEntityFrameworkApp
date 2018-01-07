@@ -90,17 +90,30 @@ namespace FriendOrganizer.UI.ViewModel
         private void InitializeFriend(Friend friend) {
             Friend = new FriendWrapper(friend);
 
-            Friend.PropertyChanged += (s, e) => {
+             Friend.PropertyChanged += (s, e) => {
                 if (!HasChanges)
                     HasChanges = _friendRepository.HasChanges();
+
                 if (e.PropertyName == nameof(Friend.HasErrors))
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            };
+
+                if (e.PropertyName == nameof(Friend.FirstName)
+                    || e.PropertyName == nameof(Friend.LastName))
+                 {
+                     SetTitle();
+                 }
+             };
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             if (Friend.Id == 0)
                 //Little trick to trigger the validation. :-(
                 Friend.FirstName = "";
+
+            SetTitle();
+        }
+
+        private void SetTitle() {
+            Title = $"{Friend.FirstName} {Friend.LastName}";
         }
 
         private Friend CreateNewFriend() {
