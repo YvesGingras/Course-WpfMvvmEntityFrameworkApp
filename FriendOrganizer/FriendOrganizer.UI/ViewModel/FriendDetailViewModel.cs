@@ -68,7 +68,7 @@ namespace FriendOrganizer.UI.ViewModel
                 ? await _friendRepository.GetByIdAsync(id.Value)
                 : CreateNewFriend();
 
-            Id = Friend.Id;
+            Id = friend.Id;
             InitializeFriend(friend);
             InitializeFriendPhoneNumbers(friend.PhoneNumbers);
 

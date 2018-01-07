@@ -41,11 +41,21 @@
         <view:NavigationView Grid.Row="1"
                              Grid.Column="0"
                              DataContext="{Binding NavigationViewModel}"/>
-        <ContentControl Grid.Row="1"
-                               Grid.Column="1"
-                               Content="{Binding DetailViewModel}"/>
-        
-        
+        <TabControl Grid.Row="1" Grid.Column="1"  
+                    ItemsSource="{Binding DetailViewModels}"
+                    SelectedItem="{Binding SelectedDetailViewModel, Mode=TwoWay}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Title"/>
+                        <TextBlock Text="*" Visibility="{Binding HasChanges,
+                            Converter={StaticResource BooleanToVisibilityConverter}}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+
+
     </Grid> 
 </Window> 
   
