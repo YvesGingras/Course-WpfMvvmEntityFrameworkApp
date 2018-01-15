@@ -17,10 +17,14 @@ namespace FriendOrganizer.UI.ViewModel
             EventAggregator = eventAggregator;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute); 
+            CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
         }
+
+        
 
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
+        public ICommand CloseDetailViewCommand { get; private set; }
 
         public string Title {
             get => _title;
@@ -49,7 +53,9 @@ namespace FriendOrganizer.UI.ViewModel
         protected abstract bool OnSaveCanExecute();
 
         protected abstract void OnSaveExecute();
-
+        protected virtual void OnCloseDetailViewExecute() {
+            //Todo: close   this instance.
+        }
         public abstract Task LoadAsync(int? id);
 
         protected virtual void RaiseDetailDeletedEvent(int modelId) {
