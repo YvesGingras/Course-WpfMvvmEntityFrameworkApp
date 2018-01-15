@@ -54,7 +54,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected abstract void OnSaveExecute();
         protected virtual void OnCloseDetailViewExecute() {
-            EventAggregator.GetEvent<AfterDetailClosedDetailEvent>()
+            EventAggregator.GetEvent<AfterDetailClosedEvent>()
                 .Publish(new AfterDetailClosedEventArgs {
                     Id = this.Id,
                     ViewModelName = this.GetType().Name
