@@ -54,8 +54,13 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected abstract void OnSaveExecute();
         protected virtual void OnCloseDetailViewExecute() {
-            //Todo: close   this instance.
+            EventAggregator.GetEvent<AfterDetailClosedDetailEvent>()
+                .Publish(new AfterDetailClosedEventArgs {
+                    Id = this.Id,
+                    ViewModelName = this.GetType().Name
+                });
         }
+
         public abstract Task LoadAsync(int? id);
 
         protected virtual void RaiseDetailDeletedEvent(int modelId) {

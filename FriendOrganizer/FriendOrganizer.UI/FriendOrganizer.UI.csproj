@@ -97,12 +97,14 @@
     <Compile Include="Data\Repositories\IGenericRepository.cs" />
     <Compile Include="Data\Repositories\IMeetingRepository.cs" />
     <Compile Include="Data\Repositories\MeetingRepository.cs" />
+    <Compile Include="Event\AfterDetailClosedDetailEvent.cs" />
     <Compile Include="Event\AfterDetailDeletedEvent.cs" />
     <Compile Include="Event\AfterDetailDeletedEventArgs.cs" />
     <Compile Include="Event\AfterDetailSavedEvent.cs" />
     <Compile Include="Event\AfterDetailSavedEventArgs.cs" />
     <Compile Include="Event\OpenDetailViewEventArgs.cs" />
     <Compile Include="Event\OpenDetailViewEvent.cs" />
+    <Compile Include="Event\AfterDetailClosedEventArgs.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
