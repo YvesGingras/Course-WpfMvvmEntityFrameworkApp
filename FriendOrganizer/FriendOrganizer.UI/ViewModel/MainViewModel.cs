@@ -35,8 +35,6 @@ namespace FriendOrganizer.UI.ViewModel
             NavigationViewModel = navigationViewModel;
         }
 
-        
-
         public ICommand CreateNewDetailCommand { get; }
 
         public INavigationViewModel NavigationViewModel { get; }
@@ -88,7 +86,6 @@ namespace FriendOrganizer.UI.ViewModel
             if (detailViewModel != null)
                 DetailViewModels.Remove(detailViewModel);
         }
-         
     }
 }
    

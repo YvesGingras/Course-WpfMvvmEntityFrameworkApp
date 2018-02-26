@@ -27,6 +27,7 @@ namespace FriendOrganizer.UI.ViewModel
             IMeetingRepository meetingRepository) : base(eventAggregator, messageDialogService) {
             _meetingRepository = meetingRepository;
             eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
+            eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
 
             AddedFriends = new ObservableCollection<Friend>();
             AvailableFriends = new ObservableCollection<Friend>();
@@ -178,6 +179,13 @@ namespace FriendOrganizer.UI.ViewModel
         private async void  AfterDetailSaved(AfterDetailSavedEventArgs args) {
             if (args.ViewModelName == nameof(FriendDetailViewModel)) {
                  await _meetingRepository.ReloadFriendAsync(args.Id);
+                _allFriends = await _meetingRepository.GetAllFriendsAsync();
+                SetupPicklist();
+            }
+        }
+
+        private async void AfterDetailDeleted(AfterDetailDeletedEventArgs obj) {
+            if (obj.ViewModelName == nameof(FriendDetailViewModel)) {
                 _allFriends = await _meetingRepository.GetAllFriendsAsync();
                 SetupPicklist();
             }
