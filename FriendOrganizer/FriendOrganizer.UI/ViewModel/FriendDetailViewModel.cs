@@ -21,17 +21,15 @@ namespace FriendOrganizer.UI.ViewModel
         private readonly IFriendRepository _friendRepository;
         private FriendWrapper _friend;
         private FriendPhoneNumberWrapper _selectedPhoneNumber;
-        private bool _hasChanges;
-        private readonly IMessageDialogService _messageDialogService;
+        //private readonly IMessageDialogService _messageDialogService;
         private readonly IProgrammingLanguageLookUpDataService _programmingLanguageLookUpDataService;
         private int _id;
 
         public FriendDetailViewModel(IFriendRepository friendRepository, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService, IProgrammingLanguageLookUpDataService programmingLanguageLookUpDataService)
-        :base(eventAggregator) {
+        :base(eventAggregator,messageDialogService) {
             _friendRepository = friendRepository;
             //_eventAggregator = eventAggregator;  
-            _messageDialogService = messageDialogService;
             _programmingLanguageLookUpDataService = programmingLanguageLookUpDataService;
 
             AddPhoneNumberCommand = new DelegateCommand(OnAddPhoneNumberExecute);
@@ -156,11 +154,11 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected override async void OnDeleteExecute() {
             if  (await _friendRepository.HasMeetingAsync(Friend.Id)) {
-                _messageDialogService.ShowInfoDialog($"{Friend.FirstName} {Friend.LastName} can't be deleted, as this friend is part of at least one meeting.");
+                MessageDialogService.ShowInfoDialog($"{Friend.FirstName} {Friend.LastName} can't be deleted, as this friend is part of at least one meeting.");
                 return;
             }
 
-            var result = _messageDialogService.ShowOkCancelDialog(
+            var result = MessageDialogService.ShowOkCancelDialog(
                 $"Do you really want to delete the friend {Friend.FirstName} {Friend.LastName}?", "Question");
 
             if (result == MessageDialogResult.Cancel) return;
