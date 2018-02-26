@@ -66,8 +66,9 @@ namespace FriendOrganizer.UI.ViewModel
             SelectedDetailViewModel = detailViewModel;
         }
 
+        private int _nextNewItemId = 0;
         private void OnCreateNewDetailExecute(Type viewModelType) {
-            OnOpenDetailView(new OpenDetailViewEventArgs {ViewModelName = viewModelType.Name});       
+            OnOpenDetailView(new OpenDetailViewEventArgs { Id = _nextNewItemId--,ViewModelName = viewModelType.Name});       
         }
 
         private void AfterDetailDeleted(AfterDetailDeletedEventArgs args) {

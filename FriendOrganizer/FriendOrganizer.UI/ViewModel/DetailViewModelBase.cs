@@ -67,7 +67,7 @@ namespace FriendOrganizer.UI.ViewModel
                 });
         }
 
-        public abstract Task LoadAsync(int? id);
+        public abstract Task LoadAsync(int id);
 
         protected virtual void RaiseDetailDeletedEvent(int modelId) {
             EventAggregator.GetEvent<AfterDetailDeletedEvent>().Publish(

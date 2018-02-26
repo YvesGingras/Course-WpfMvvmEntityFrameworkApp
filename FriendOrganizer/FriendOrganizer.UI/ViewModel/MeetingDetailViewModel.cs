@@ -66,12 +66,12 @@ namespace FriendOrganizer.UI.ViewModel
         public ICommand AddFriendCommand { get; }
         public ICommand RemoveFriendCommand { get; }
 
-        public override async Task LoadAsync(int? meetingId) {
-            var meeting = meetingId.HasValue
-                ? await _meetingRepository.GetByIdAsync(meetingId.Value)
+        public override async Task LoadAsync(int meetingId) {
+            var meeting = meetingId > 0
+                ? await _meetingRepository.GetByIdAsync(meetingId)
                 : CreateNewMeeting();
 
-            Id = meeting.Id;
+            Id = meetingId;
             InitializeMeeting(meeting);
             _allFriends = await _meetingRepository.GetAllFriendsAsync();
             SetupPicklist();
@@ -85,7 +85,6 @@ namespace FriendOrganizer.UI.ViewModel
                 RaiseDetailDeletedEvent(Meeting.Id);
             }
         }
-        //testing push on github
         protected override bool OnSaveCanExecute() {
             return Meeting != null && !Meeting.HasErrors && HasChanges;
         }

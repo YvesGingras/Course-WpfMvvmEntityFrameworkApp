@@ -29,12 +29,9 @@ namespace FriendOrganizer.UI.ViewModel
             IMessageDialogService messageDialogService, IProgrammingLanguageLookUpDataService programmingLanguageLookUpDataService)
         :base(eventAggregator,messageDialogService) {
             _friendRepository = friendRepository;
-            //_eventAggregator = eventAggregator;  
             _programmingLanguageLookUpDataService = programmingLanguageLookUpDataService;
-
             AddPhoneNumberCommand = new DelegateCommand(OnAddPhoneNumberExecute);
             RemovePhoneNumberCommand = new DelegateCommand(OnRemovePhoneNumberExecute, OnRemovePhoneNumberCanExecute);
-            
             ProgrammingLanguages = new ObservableCollection<LookupItem>();
             PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
         }
@@ -61,12 +58,12 @@ namespace FriendOrganizer.UI.ViewModel
         public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
         public ObservableCollection<FriendPhoneNumberWrapper> PhoneNumbers { get;  }
 
-        public override async Task LoadAsync(int? id) {
-            var friend = id.HasValue
-                ? await _friendRepository.GetByIdAsync(id.Value)
+        public override async Task LoadAsync(int friendId) {
+            var friend = friendId > 0
+                ? await _friendRepository.GetByIdAsync(friendId)
                 : CreateNewFriend();
 
-            Id = friend.Id;
+            Id = friendId;
             InitializeFriend(friend);
             InitializeFriendPhoneNumbers(friend.PhoneNumbers);
 
