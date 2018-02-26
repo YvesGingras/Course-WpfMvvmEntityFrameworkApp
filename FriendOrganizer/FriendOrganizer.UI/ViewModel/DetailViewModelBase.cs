@@ -54,14 +54,14 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected abstract void OnSaveExecute();
         protected virtual void OnCloseDetailViewExecute() {
-            if (!HasChanges) return;
-            var result = MessageDialogService.ShowOkCancelDialog("You've made changes. Close this  item?", "Question");
-            if (result == MessageDialogResult.Cancel)
-                return;
+            if (HasChanges) {
+                var result = MessageDialogService.ShowOkCancelDialog("You've made changes. Close this  item?", "Question");
+                if (result == MessageDialogResult.Cancel)
+                    return;
+            }
 
             EventAggregator.GetEvent<AfterDetailClosedEvent>()
-                .Publish(new AfterDetailClosedEventArgs
-                {
+                .Publish(new AfterDetailClosedEventArgs {
                     Id = this.Id,
                     ViewModelName = this.GetType().Name
                 });
