@@ -81,7 +81,7 @@ namespace FriendOrganizer.UI.ViewModel
                 RaiseDetailDeletedEvent(Meeting.Id);
             }
         }
-
+        //testing push on github
         protected override bool OnSaveCanExecute() {
             return Meeting != null && !Meeting.HasErrors && HasChanges;
         }
