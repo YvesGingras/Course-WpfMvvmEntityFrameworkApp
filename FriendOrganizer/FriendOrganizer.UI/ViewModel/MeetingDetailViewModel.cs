@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data.Repositories;
+using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
 using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
@@ -25,12 +26,15 @@ namespace FriendOrganizer.UI.ViewModel
             IMessageDialogService messageDialogService,
             IMeetingRepository meetingRepository) : base(eventAggregator, messageDialogService) {
             _meetingRepository = meetingRepository;
+            eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
 
             AddedFriends = new ObservableCollection<Friend>();
             AvailableFriends = new ObservableCollection<Friend>();
             AddFriendCommand = new DelegateCommand(OnAddFriendExecute,OnAddFriendCanExecute);
             RemoveFriendCommand = new DelegateCommand(OnRemoveFriendExecute,OnRemoveFriendCanExecute);
         }
+
+        
 
         public MeetingWrapper Meeting {
             get => _meetingWrapper;
@@ -55,7 +59,6 @@ namespace FriendOrganizer.UI.ViewModel
                 ((DelegateCommand)RemoveFriendCommand).RaiseCanExecuteChanged();
             }
         }
-
         public ObservableCollection<Friend> AddedFriends { get; }
         public ObservableCollection<Friend> AvailableFriends { get; }
 
@@ -170,6 +173,13 @@ namespace FriendOrganizer.UI.ViewModel
 
             foreach (var availableFriend in availableFriends)
                 AvailableFriends.Add(availableFriend);
+        }
+
+        private async void  AfterDetailSaved(AfterDetailSavedEventArgs args) {
+            if (args.ViewModelName == nameof(FriendDetailViewModel)) {
+                _allFriends = await _meetingRepository.GetAllFriendsAsync();
+                SetupPicklist();
+            }
         }
     }
 }
