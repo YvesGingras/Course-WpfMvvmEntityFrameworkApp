@@ -177,6 +177,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         private async void  AfterDetailSaved(AfterDetailSavedEventArgs args) {
             if (args.ViewModelName == nameof(FriendDetailViewModel)) {
+                 await _meetingRepository.ReloadFriendAsync(args.Id);
                 _allFriends = await _meetingRepository.GetAllFriendsAsync();
                 SetupPicklist();
             }

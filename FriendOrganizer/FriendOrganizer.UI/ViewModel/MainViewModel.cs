@@ -88,7 +88,7 @@ namespace FriendOrganizer.UI.ViewModel
             if (detailViewModel != null)
                 DetailViewModels.Remove(detailViewModel);
         }
-
+         
     }
 }
    
