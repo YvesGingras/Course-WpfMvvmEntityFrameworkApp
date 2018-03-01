@@ -19,31 +19,32 @@ namespace FriendOrganizer.UI.ViewModel
             IMessageDialogService messageDialogService,
             IProgrammingLanguageRepository programmingLanguageRepository)
             : base(eventAggregator, messageDialogService) {
+
             _programmingLanguageRepository = programmingLanguageRepository;
             Title = "Programming Languages";
-            ProgarmmingLanguages = new ObservableCollection<ProgrammingLanguageWrapper>();
+            ProgrammingLanguages = new ObservableCollection<ProgrammingLanguageWrapper>();
         }
 
-        public ObservableCollection<ProgrammingLanguageWrapper> ProgarmmingLanguages { get; set; }
+        public ObservableCollection<ProgrammingLanguageWrapper> ProgrammingLanguages { get; set; }
 
         public override async Task LoadAsync(int id) {
             Id = id;
-            foreach (var wrapper in ProgarmmingLanguages) {
+            foreach (var wrapper in ProgrammingLanguages) {
                 wrapper.PropertyChanged -= Wrapper_PropertyChanged;
             }
-            ProgarmmingLanguages.Clear();
+            ProgrammingLanguages.Clear();
 
             var languages = await _programmingLanguageRepository.GetAllAsync();
 
             foreach (var model in languages) {
                 var wrapper = new ProgrammingLanguageWrapper(model);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
-                ProgarmmingLanguages.Add(wrapper);
+                ProgrammingLanguages.Add(wrapper);
             }
         }
 
         protected override bool OnSaveCanExecute() {
-            return HasChanges && ProgarmmingLanguages.All(p => !p.HasErrors);
+            return HasChanges && ProgrammingLanguages.All(p => !p.HasErrors);
         }
 
         protected override async void OnSaveExecute() {
