@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data.Lookups;
 using FriendOrganizer.UI.Data.Repositories;
 using FriendOrganizer.UI.View.Services;
@@ -14,6 +16,7 @@ namespace FriendOrganizer.UI.ViewModel
     public class ProgrammingLanguageDetailViewModel : DetailViewModelBase
     {
         private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
+        private ProgrammingLanguageWrapper _selectedProgrammingLanguage;
 
         public ProgrammingLanguageDetailViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
@@ -23,10 +26,24 @@ namespace FriendOrganizer.UI.ViewModel
             _programmingLanguageRepository = programmingLanguageRepository;
             Title = "Programming Languages";
             ProgrammingLanguages = new ObservableCollection<ProgrammingLanguageWrapper>();
+
+            AddCommand = new DelegateCommand(OnAddExecute);
+            RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
+        }
+
+        public ICommand RemoveCommand { get; set; }
+        public ICommand AddCommand { get; set; }
+
+        public ProgrammingLanguageWrapper SelectedProgrammingLanguage {
+            get => _selectedProgrammingLanguage;
+            set {
+                _selectedProgrammingLanguage = value;
+                OnPropertyChanged();
+                ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+            }
         }
 
         public ObservableCollection<ProgrammingLanguageWrapper> ProgrammingLanguages { get; set; }
-
         public override async Task LoadAsync(int id) {
             Id = id;
             foreach (var wrapper in ProgrammingLanguages) {
@@ -42,11 +59,9 @@ namespace FriendOrganizer.UI.ViewModel
                 ProgrammingLanguages.Add(wrapper);
             }
         }
-
         protected override bool OnSaveCanExecute() {
             return HasChanges && ProgrammingLanguages.All(p => !p.HasErrors);
         }
-
         protected override void OnDeleteExecute()
         {
             throw new System.NotImplementedException();
@@ -58,6 +73,30 @@ namespace FriendOrganizer.UI.ViewModel
             RaiseCollectionSavedEvent();    
         }
 
+        private void OnAddExecute() {
+            var wrapper = new ProgrammingLanguageWrapper(new ProgrammingLanguage());
+            wrapper.PropertyChanged += Wrapper_PropertyChanged;
+            _programmingLanguageRepository.Add(wrapper.Model);
+            ProgrammingLanguages.Add(wrapper);
+
+            //trigger the validation
+            wrapper.Name = "";
+        }
+
+        private void OnRemoveExecute() {
+            SelectedProgrammingLanguage.PropertyChanged -= Wrapper_PropertyChanged;
+            _programmingLanguageRepository.Remove(SelectedProgrammingLanguage.Model);
+            ProgrammingLanguages.Remove(SelectedProgrammingLanguage);
+            SelectedProgrammingLanguage = null;
+            HasChanges = _programmingLanguageRepository.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private bool OnRemoveCanExecute() {
+            return SelectedProgrammingLanguage != null;
+        }
+
+
         private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs e) {
             if (!HasChanges)
                 HasChanges = _programmingLanguageRepository.HasChanges();
@@ -67,3 +106,4 @@ namespace FriendOrganizer.UI.ViewModel
         }
     }
 }
+ 
