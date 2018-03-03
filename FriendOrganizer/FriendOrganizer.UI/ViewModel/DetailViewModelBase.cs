@@ -87,6 +87,13 @@ namespace FriendOrganizer.UI.ViewModel
                     ViewModelName = this.GetType().Name
                 });
         }
+
+        protected virtual void RaiseCollectionSavedEvent() {
+            EventAggregator.GetEvent<AfterCollectionSavedEvent>()
+                .Publish(new AfterCollectionSavedEventArgs {
+                    ViewModelName = GetType().Name
+                });
+        }
     }
 
 }

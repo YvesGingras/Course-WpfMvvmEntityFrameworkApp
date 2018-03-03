@@ -30,11 +30,15 @@ namespace FriendOrganizer.UI.ViewModel
         :base(eventAggregator,messageDialogService) {
             _friendRepository = friendRepository;
             _programmingLanguageLookUpDataService = programmingLanguageLookUpDataService;
+
+            eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
             AddPhoneNumberCommand = new DelegateCommand(OnAddPhoneNumberExecute);
             RemovePhoneNumberCommand = new DelegateCommand(OnRemovePhoneNumberExecute, OnRemovePhoneNumberCanExecute);
             ProgrammingLanguages = new ObservableCollection<LookupItem>();
             PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
         }
+
+        
 
         public FriendWrapper Friend {
             get => _friend;
@@ -117,7 +121,7 @@ namespace FriendOrganizer.UI.ViewModel
             return friend;
         }
 
-        private async Task LoadProgrammingLanguagesLookupAsync() {
+        private async Task  LoadProgrammingLanguagesLookupAsync() {
             ProgrammingLanguages.Clear();
             ProgrammingLanguages.Add(new NullLookupItem {DisplayMember = " - "});
             var lookup = await _programmingLanguageLookUpDataService.GetProgrammingLanguageLookupAsync();
@@ -183,6 +187,11 @@ namespace FriendOrganizer.UI.ViewModel
 
         private bool OnRemovePhoneNumberCanExecute() {
             return SelectedPhoneNumber != null;
+        }
+
+        private async void AfterCollectionSaved(AfterCollectionSavedEventArgs obj) {
+            if (obj.ViewModelName == nameof(ProgrammingLanguageDetailViewModel))
+                await LoadProgrammingLanguagesLookupAsync();
         }
     }
 }

@@ -47,14 +47,15 @@ namespace FriendOrganizer.UI.ViewModel
             return HasChanges && ProgrammingLanguages.All(p => !p.HasErrors);
         }
 
-        protected override async void OnSaveExecute() {
-            await _programmingLanguageRepository.SaveAsync();
-            HasChanges = _programmingLanguageRepository.HasChanges();
-        }
-
         protected override void OnDeleteExecute()
         {
             throw new System.NotImplementedException();
+        }
+        protected override async void OnSaveExecute()
+        {
+            await _programmingLanguageRepository.SaveAsync();
+            HasChanges = _programmingLanguageRepository.HasChanges();
+            RaiseCollectionSavedEvent();    
         }
 
         private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs e) {
