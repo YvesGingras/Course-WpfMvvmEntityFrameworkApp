@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,13 +67,21 @@ namespace FriendOrganizer.UI.ViewModel
         {
             throw new System.NotImplementedException();
         }
-        protected override async void OnSaveExecute()
-        {
-            await _programmingLanguageRepository.SaveAsync();
-            HasChanges = _programmingLanguageRepository.HasChanges();
-            RaiseCollectionSavedEvent();    
-        }
+        protected override async void OnSaveExecute() {
+            try {
+                await _programmingLanguageRepository.SaveAsync();
+                HasChanges = _programmingLanguageRepository.HasChanges();
+                RaiseCollectionSavedEvent();
+            }
+            catch (Exception ex) {
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
 
+                    MessageDialogService.ShowInfoDialog("Error while saving the entities, the data will be reloaded. Details: "
+                                                    + ex.Message);
+                await LoadAsync(Id);
+            }
+        }
         private void OnAddExecute() {
             var wrapper = new ProgrammingLanguageWrapper(new ProgrammingLanguage());
             wrapper.PropertyChanged += Wrapper_PropertyChanged;
@@ -82,7 +91,6 @@ namespace FriendOrganizer.UI.ViewModel
             //trigger the validation
             wrapper.Name = "";
         }
-
         private void OnRemoveExecute() {
             SelectedProgrammingLanguage.PropertyChanged -= Wrapper_PropertyChanged;
             _programmingLanguageRepository.Remove(SelectedProgrammingLanguage.Model);
@@ -91,12 +99,9 @@ namespace FriendOrganizer.UI.ViewModel
             HasChanges = _programmingLanguageRepository.HasChanges();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
-
         private bool OnRemoveCanExecute() {
             return SelectedProgrammingLanguage != null;
         }
-
-
         private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs e) {
             if (!HasChanges)
                 HasChanges = _programmingLanguageRepository.HasChanges();
