@@ -4,45 +4,58 @@
              xmlns:local="clr-namespace:FriendOrganizer.UI"
              Startup="App_OnStartup">
     <Application.Resources>
-        <BooleanToVisibilityConverter  x:Key="BooleanToVisibilityConverter"/>
-        <Style TargetType="TextBox" >
-             <Setter Property="Validation.ErrorTemplate">
-                 <Setter.Value>
-                     <ControlTemplate>
-                         <StackPanel>
-                             <AdornedElementPlaceholder x:Name="placeholder"/>
-                            <TextBlock FontSize="12" Foreground="Red" Text="{Binding ElementName=placeholder,
+           <ResourceDictionary>
+               <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <BooleanToVisibilityConverter  x:Key="BooleanToVisibilityConverter"/>
+                    <Style TargetType="TextBox" >
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <AdornedElementPlaceholder x:Name="placeholder"/>
+                                        <TextBlock FontSize="12" Foreground="Red" Text="{Binding ElementName=placeholder,
                                 Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
-                         </StackPanel>
-                     </ControlTemplate>
-                 </Setter.Value>
-             </Setter>
-             <Style.Triggers>
-                 <Trigger Property="Validation.HasError" Value="True">
-                     <Setter Property="Background" Value="IndianRed"/>
-                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="Background" Value="IndianRed"/>
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
                          Path=(Validation.Errors)[0].ErrorContent}"/>
-                 </Trigger>
-             </Style.Triggers>
-         </Style>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
 
-        <Style x:Key="DataGridColumnStyle" TargetType="TextBlock">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="Background" Value="IndianRed"/>
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                    <Style x:Key="DataGridColumnStyle" TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="Background" Value="IndianRed"/>
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
                          Path=(Validation.Errors)[0].ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="DataGridEditingColumnStyle" TargetType="TextBox">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="Background" Value="IndianRed"/>
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="DataGridEditingColumnStyle" TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="Background" Value="IndianRed"/>
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
                          Path=(Validation.Errors)[0].ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
+                   <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                   <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                   <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                   <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                   <!-- Accent and AppTheme setting -->
+                   <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Teal.xaml" />
+                   <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+           </ResourceDictionary>
     </Application.Resources> 
 </Application> 
