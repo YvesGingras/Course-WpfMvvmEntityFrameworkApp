@@ -55,6 +55,15 @@
         <TabControl Grid.Row="1" Grid.Column="1"  
                     ItemsSource="{Binding DetailViewModels}"
                     SelectedItem="{Binding SelectedDetailViewModel, Mode=TwoWay}">
+            <TabControl.ItemContainerStyle>
+                <Style 
+                    TargetType="TabItem"
+                    BasedOn="{StaticResource {x:Type TabItem}}">
+                    <Setter Property="Background" Value="#333333"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -62,13 +71,14 @@
                         <TextBlock Text="*" Visibility="{Binding HasChanges,
                             Converter={StaticResource BooleanToVisibilityConverter}}"></TextBlock>
                         <Button Command="{Binding CloseDetailViewCommand}"
-                                VerticalContentAlignment="Top" Margin="2"
-                                Content="x" FontSize="20"/>
+                                Style="{StaticResource ChromelessButtonStyle}"
+                                VerticalContentAlignment="Top" Margin="2 0 2 2"
+                                Content="X" FontSize="20"/>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>
-
+ 
 
     </Grid> 
 </Controls:MetroWindow> 
